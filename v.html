@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffccd5;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            color: #ff1e56;
+        }
+        .envelope-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 26px;
+            color: #ff1e56;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .envelope {
+            width: 200px;
+            height: 150px;
+            position: relative;
+            cursor: pointer;
+            margin-top: 50px;
+        }
+        .top-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 100px solid #ff758c;
+            top: 0;
+            left: 0;
+            transition: transform 0.5s;
+            transform-origin: top;
+        }
+        .bottom-flap {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            background: #ff758c;
+            bottom: 0;
+            left: 0;
+            border-radius: 0 0 20px 20px;
+        }
+        .message {
+            width: 180px;
+            height: 120px;
+            background: white;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .opened .top-flap {
+            transform: rotateX(180deg);
+        }
+        .opened .message {
+            opacity: 1;
+        }
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 10;
+        }
+        .yes-btn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        .no-btn {
+            background-color: #ff85a2;
+            color: white;
+        }
+        #heart {
+            font-size: 100px;
+            display: none;
+            margin-top: 20px;
+        }
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            color: pink;
+            animation: floatUp 3s linear forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0px) scale(1); }
+            100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope-text">Made by Henry for Jordan</div>
+    <div class="envelope" onclick="openEnvelope()">
+        <div class="top-flap"></div>
+        <div class="bottom-flap"></div>
+        <div class="message">💌 Tap to Open 💌</div>
+    </div>
+    <div class="hidden-content" id="hiddenContent">
+        <h1>Will you be my Valentine? ❤️</h1>
+        <div class="container" id="buttonContainer">
+            <button class="btn yes-btn" onclick="showHeart()">Yes</button>
+            <button class="btn no-btn" onclick="addMoreYes()">No</button>
+        </div>
+        <div id="heart">❤️</div>
+    </div>
+    <script>
+        function openEnvelope() {
+            document.querySelector(".envelope").classList.add("opened");
+            generateHearts();
+            setTimeout(() => {
+                document.querySelector(".envelope").style.display = "none";
+                document.getElementById("hiddenContent").style.display = "block";
+            }, 800);
+        }
+        function showHeart() {
+            document.getElementById("heart").style.display = "block";
+        }
+        function addMoreYes() {
+            let btn = document.createElement("button");
+            btn.innerText = "Yes";
+            btn.className = "btn yes-btn";
+            btn.style.fontSize = "24px";
+            btn.style.padding = "15px 30px";
+            btn.onclick = showHeart;
+            btn.style.position = "absolute";
+            btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+            btn.style.zIndex = "5";
+            document.body.appendChild(btn);
+        }
+        function generateHearts() {
+            for (let i = 0; i < 15; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.className = "floating-heart";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
